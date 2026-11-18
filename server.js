@@ -9,9 +9,13 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-    origin: ['https://ua-pushpak.github.io', 'http://localhost:3000'],
-    credentials: true
+    origin: 'https://ua-pushpak.github.io', // Allow your frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -19,6 +23,10 @@ app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
     next();
 });
+
+
+
+
 
 
 
