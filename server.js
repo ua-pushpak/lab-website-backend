@@ -9,7 +9,8 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-    origin: ['https://ua-pushpak.github.io', 'http://localhost:3000']
+    origin: ['https://ua-pushpak.github.io', 'http://localhost:3000'],
+    credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
