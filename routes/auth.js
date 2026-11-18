@@ -95,6 +95,24 @@ router.put('/users/:id', async (req, res) => {
     }
 });
 
+router.put('/users/:id/password', async (req, res) => {
+    try {
+        const { newPassword } = req.body;
+        const user = await User.findById(req.params.id);
+        
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        user.password = newPassword; // The pre-save hook in User.js will hash it!
+        await user.save();
+
+        res.json({ success: true, message: 'Password updated successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 router.delete('/users/:id', async (req, res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
