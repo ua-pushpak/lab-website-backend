@@ -7,27 +7,29 @@ router.post('/', async (req, res) => {
     try {
         const { name, email, message } = req.body;
         
-        // 1. Save to Database
+        // 1. Save to MongoDB
         const newMessage = await Message.create({ name, email, message });
         
-        // 2. Send Email (Requires an App Password from Gmail)
+        // 2. Setup Email Transporter
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER, // Add to Render environment variables
-                pass: process.env.EMAIL_PASS  // Add to Render environment variables
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
             }
         });
 
+        // 3. Send Email
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER, // Send to yourself
+            to: process.env.EMAIL_USER, // Sends to yourself
             subject: `New Contact Message from ${name}`,
             text: `From: ${email}\n\nMessage: ${message}`
         });
 
-        res.status(200).json({ success: true, data: newMessage });
+        res.status(200).json({ success: true, message: 'Message sent and saved!', data: newMessage });
     } catch (error) {
+        console.error('Contact form error:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 });
