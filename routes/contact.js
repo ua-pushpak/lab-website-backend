@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
         // 2. Send Email via Resend (HTTP API - Works on Render)
         await resend.emails.send({
             from: 'onboarding@resend.dev', // Use this for testing (Resend's default)
-            to: 'your_email@gmail.com',   // The email where you want to receive messages
+            to: 'uapushpak@gmail.com',   // The email where you want to receive messages
             subject: `New Contact Message from ${name}`,
             text: `From: ${email}\n\nMessage: ${message}`
         });
