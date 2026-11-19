@@ -45,7 +45,7 @@ app.use('/api/publications', require('./routes/publications'));
 app.use('/api/team', require('./routes/team'));
 app.use('/api/news', require('./routes/news'));
 app.use('/api/site-settings', require('./routes/siteSettings'));
-app.use('/api/auth', verifyToken, requireAdmin, require('./routes/auth'));
+app.use('/api/auth', require('./routes/auth'));
 
 // PROTECTED ROUTES (Bouncer checks JWT + Admin role)
 app.use('/api/database', verifyToken, requireAdmin, require('./routes/database'));
